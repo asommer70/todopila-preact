@@ -1,4 +1,12 @@
 @import './node_modules/foundation-sites/scss/foundation';
 @import 'settings';
 @import 'includes';
-// @include foundation-everything;
+
+li.list-name {
+  cursor: pointer;
+  margin-bottom: 10px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
