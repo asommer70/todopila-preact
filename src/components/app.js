@@ -9,8 +9,8 @@ export default class App extends Component {
 
 		this.state = {
 			lists: [
-				{id: 2, name: '09-23-2017', tasks: []},
-				{id: 1, name: '09-22-2017', tasks: []}
+				{id: 2, name: '09-23-2017', tasks: 'Beans...\n'},
+				{id: 1, name: '09-22-2017', tasks: ''}
 			],
 			selectedList: undefined
 		}
@@ -20,10 +20,25 @@ export default class App extends Component {
 		this.setState({selectedList: this.state.lists[idx]});
 	}
 
-	addTask(task) {
-		const list = this.state.selectedList;
-		list.tasks.append(task)
-		this.setState({selectedList: list});
+	updateTask(tasks) {
+		// Update the selectedList.
+		const selected = this.state.selectedList;
+		selected.tasks = tasks;
+
+		// Update the selectedList in the lists array and set State.
+		this.setState({
+			lists: this.state.lists.map((list, index) => {
+				if (list.id == this.state.selectedList.id) {
+					return {
+						...list,
+						tasks: tasks
+					}
+				} else {
+					return list;
+				}
+			}),
+			selectedList: selected
+		});
 	}
 
 	render() {
@@ -39,7 +54,7 @@ export default class App extends Component {
 							</div>
 
 							<div className="columns small-8">
-								<List list={this.state.selectedList} addTask={this.addTask.bind(this)} />
+								<List list={this.state.selectedList} updateTask={this.updateTask.bind(this)} />
 							</div>
 						</div>
 
