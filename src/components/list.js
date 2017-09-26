@@ -1,8 +1,14 @@
 import { h, Component } from 'preact';
+import md from 'markdown-it';
+import taskLists from 'markdown-it-task-lists';
+
+const parser = md().use(taskLists, {enabled: true, label: true, labelAfter: true});
 
 export default class List extends Component {
 	constructor(props) {
 		super(props);
+
+		// var result = parser.render(...);
 
 		this.state = {
 			tasks: (this.props.list ? this.props.list.tasks : ""),
@@ -12,6 +18,18 @@ export default class List extends Component {
 
 	componentWillReceiveProps(props) {
 		this.setState({tasks: props.list.tasks});
+	}
+
+	componentDidMount() {
+		// Add an event listener to the document to listen for the change event outside of React.
+		document.addEventListener('change', (e) => {
+			if (e.target.classList.contains('task-list-item-checkbox')) {
+				// Get the text for the task and if it's checked or not.
+				const taskText = e.target.nextSibling.innerHTML;
+				const taskStatus = e.target.checked;
+				this.props.taskStatusChange(taskText, taskStatus);
+			}
+		});
 	}
 
 	handleChange(e) {
@@ -37,11 +55,7 @@ export default class List extends Component {
 				</div>
 			);
 		} else {
-			tasks = (
-				<div>
-					{this.state.tasks}
-				</div>
-			);
+			tasks = <div dangerouslySetInnerHTML={{__html: parser.render(this.state.tasks)}} />;
 		}
 
 		return (

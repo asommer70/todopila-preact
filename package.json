@@ -24,6 +24,8 @@
   "homepage": "https://github.com/asommer70/todopila-preact#readme",
   "dependencies": {
     "foundation-sites": "^6.4.3",
+    "markdown-it": "^8.4.0",
+    "markdown-it-task-lists": "git+ssh://git@github.com/asommer70/markdown-it-task-lists.git",
     "preact": "^8.2.5"
   },
   "devDependencies": {

@@ -1,6 +1,7 @@
 @import './node_modules/foundation-sites/scss/foundation';
 @import 'settings';
 @import 'includes';
+@import 'checkbox';
 
 li.list-name {
   cursor: pointer;
@@ -17,4 +18,8 @@ h3.tasks-label {
 
 .task-edit {
   margin-top: 10px;
+}
+
+.contains-task-list {
+  list-style: none;
 }
