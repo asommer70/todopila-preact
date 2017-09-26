@@ -7,12 +7,14 @@ export default class App extends Component {
 	constructor(props) {
 		super(props);
 
+		const exampleLists = [
+			{id: 2, name: '09-23-2017', tasks: 'Beans...\n* [ ] Stuff\n* [ ] Other stuff...'},
+			{id: 1, name: '09-22-2017', tasks: ''}
+		];
+
 		this.state = {
-			lists: [
-				{id: 2, name: '09-23-2017', tasks: 'Beans...\n* [ ] Stuff\n* [ ] Other stuff...'},
-				{id: 1, name: '09-22-2017', tasks: ''}
-			],
-			selectedList: undefined
+			lists: exampleLists,
+			selectedList: exampleLists[0]
 		}
 	}
 
@@ -85,11 +87,11 @@ export default class App extends Component {
 						<Menu />
 
 						<div className="row">
-							<div className="columns small-4">
+							<div className="columns small-2">
 								<Lists lists={this.state.lists} selectList={this.selectList.bind(this)} />
 							</div>
 
-							<div className="columns small-8">
+							<div className="columns small-10">
 								<List list={this.state.selectedList}
 											updateTask={this.updateTask.bind(this)}
 											taskStatusChange={this.taskStatusChange.bind(this)}

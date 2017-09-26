@@ -1,18 +1,13 @@
 import { h, Component } from 'preact';
-import md from 'markdown-it';
-import taskLists from 'markdown-it-task-lists';
-
-const parser = md().use(taskLists, {enabled: true, label: true, labelAfter: true});
+import Viewer from './viewer';
 
 export default class List extends Component {
 	constructor(props) {
 		super(props);
 
-		// var result = parser.render(...);
-
 		this.state = {
 			tasks: (this.props.list ? this.props.list.tasks : ""),
-			edit: false
+			edit: false,
 		}
 	}
 
@@ -49,13 +44,19 @@ export default class List extends Component {
 		let tasks;
 		if (this.state.edit) {
 			tasks = (
-				<div>
-					<textarea value={this.state.tasks} onChange={this.handleChange.bind(this)} />
-					<button className="button small" onClick={this.saveTasks.bind(this)}>Save Tasks</button>
+				<div className="row">
+					<div className="columns small-6">
+						<textarea value={this.state.tasks} onKeyup={this.handleChange.bind(this)} />
+						<button className="button small" onClick={this.saveTasks.bind(this)}>Save Tasks</button>
+					</div>
+
+					<div className="columns small-6">
+						<Viewer content={this.state.tasks} />
+					</div>
 				</div>
 			);
 		} else {
-			tasks = <div dangerouslySetInnerHTML={{__html: parser.render(this.state.tasks)}} />;
+			tasks = <Viewer content={this.state.tasks} />;
 		}
 
 		return (
@@ -65,7 +66,7 @@ export default class List extends Component {
         <br/>
 
         <div className="row">
-					<div className="columns small-10">
+					<div className="columns small-12">
 						<h3 className="tasks-label">Tasks</h3>
 						<button className="button tiny secondary float-right task-edit" onClick={() => this.setState({edit: !this.state.edit})}>Edit</button>
 						<br/>
