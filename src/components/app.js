@@ -22,12 +22,7 @@ export default class App extends Component {
 		this.setState({selectedList: this.state.lists[idx]});
 	}
 
-	updateTask(tasks) {
-		// Update the selectedList.
-		const selected = this.state.selectedList;
-		selected.tasks = tasks;
-
-		// Update the selectedList in the lists array and set State.
+	updateLists(selected, tasks) {
 		this.setState({
 			lists: this.state.lists.map((list, index) => {
 				if (list.id == this.state.selectedList.id) {
@@ -41,6 +36,15 @@ export default class App extends Component {
 			}),
 			selectedList: selected
 		});
+	}
+
+	updateTask(tasks) {
+		// Update the selectedList.
+		const selected = this.state.selectedList;
+		selected.tasks = tasks;
+
+		// Update the selectedList in the lists array and set State.
+		this.updateLists(selected, tasks);
 	}
 
 	taskStatusChange(text, status) {
@@ -60,23 +64,8 @@ export default class App extends Component {
 
 		selected.tasks = tasks.join("\n");
 
-		//
-		// TODO:as refactor this into it's own method.
-		//
 		// Update the selectedList in the lists array and set State.
-		this.setState({
-			lists: this.state.lists.map((list, index) => {
-				if (list.id == this.state.selectedList.id) {
-					return {
-						...list,
-						tasks: tasks
-					}
-				} else {
-					return list;
-				}
-			}),
-			selectedList: selected
-		});
+		this.updateLists(selected, selected.tasks);
 	}
 
 	render() {
